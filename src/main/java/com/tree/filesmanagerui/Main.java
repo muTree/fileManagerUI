@@ -18,44 +18,35 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import java.io.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
-import java.sql.SQLException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
-
-import java.io.File;
-import java.util.ArrayList;
 
 public class Main extends Application {
 
-    private final ObservableList<OneFile> data = FXCollections.observableArrayList(
-            getFiles("d:\\video") );
-
-
     @Override
     public void start(Stage primaryStage) {
-
+        DataSql dataSql = new DataSql();
+        final ObservableList<OneFile> data = FXCollections.observableArrayList(
+                dataSql.getFiles() );
         // 创建表格
         final TableView<OneFile> table = new TableView<>();
         table.setEditable(false);
         table.setPrefSize(800, 300);
 
         // 创建列
-        TableColumn<OneFile, String> nameCol = new TableColumn<>("file");
+        TableColumn<OneFile, String> nameCol = new TableColumn<>("文件");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        TableColumn<OneFile, String> pathCol = new TableColumn<>("path");
+        TableColumn<OneFile, String> pathCol = new TableColumn<>("路径");
         pathCol.setCellValueFactory(new PropertyValueFactory<>("path"));
 
-        TableColumn<OneFile, String> typeCol = new TableColumn<>("type");
+        TableColumn<OneFile, String> typeCol = new TableColumn<>("类型");
         typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
 
+        TableColumn<OneFile, String> suffixCol = new TableColumn<>("后缀");
+        suffixCol.setCellValueFactory(new PropertyValueFactory<>("suffix"));
+
         // 将列添加到表格中
-        table.getColumns().addAll(nameCol, pathCol, typeCol);
+        table.getColumns().addAll(nameCol, pathCol, typeCol, suffixCol);
 
         // 创建图片组件并添加到 StackPane 容器中
         Image image = new Image("D:\\BaiduSyncdisk\\Pictures\\v2-c5c2524a2da642ffa14f7d5f02b966c6_b.jpg");
@@ -106,92 +97,4 @@ public class Main extends Application {
         launch(args);
     }
 
-    OneFile[] getFiles(String dir) {
-        ArrayList<OneFile> files = new ArrayList<OneFile>();
-        String file_dir = dir;
-        File directory = new File(file_dir);
-
-        // 判断路径是否存在
-        if (!directory.exists()) {
-            System.out.println("目录不存在");
-            System.exit(0);
-        }
-
-        // 获取目录中所有文件和文件夹的名称
-        String[] fileList = directory.list();
-
-        if (fileList.length == 0) {
-            System.out.println("目录为空");
-        } else {
-//            System.out.println("目录中的文件和文件夹：");
-            for (String file : fileList) {
-                System.out.println(file);
-            }
-        }
-
-        Connection conn = null;
-        try {
-            // 注册 JDBC 驱动
-            Class.forName("org.sqlite.JDBC");
-            // 打开连接
-            conn = DriverManager.getConnection("jdbc:sqlite:files.db");
-        } catch (ClassNotFoundException e) {
-            System.err.println("未找到 SQLite JDBC 驱动");
-        } catch (SQLException e) {
-            System.err.println("连接 SQLite 数据库失败，错误信息：" + e.getMessage());
-        }
-        Statement stmt = null;
-        try {
-            stmt = conn.createStatement();
-            String sql = "CREATE TABLE IF NOT EXISTS files " +
-                    "(id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "name TEXT NOT NULL, " +
-                    "path TEXT, " +
-                    "type TEXT, " +
-                    "suffix TEXT, " +
-                    "size INTEGER, " +
-                    "duration INTEGER, " +
-                    "tmp INTEGER)";
-            stmt.executeUpdate(sql);
-        } catch (SQLException e) {
-            System.err.println("创建表失败，错误信息：" + e.getMessage());
-        } finally {
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException e) {
-                    System.err.println("关闭声明失败，错误信息：" + e.getMessage());
-                }
-            }
-        }
-
-        for (String file : fileList) {
-            Path path = Paths.get(file_dir, file);
-            String fullPath = path.toAbsolutePath().toString();
-            System.out.println(fullPath);
-
-            File videoFile = new File(fullPath); // 创建文件对象
-            if (videoFile.exists() && videoFile.isFile()) { // 判断文件是否存在且为普通文件
-                long fileSize = videoFile.length(); // 获取文件大小，单位为字节
-                long fileSizeInKB = fileSize / 1024; // 将文件大小转换为 KB
-                long fileSizeInMB = fileSize / (1024 * 1024); // 将文件大小转换为 MB
-                long fileSizeInGB = fileSize / (1024 * 1024 * 1024); // 将文件大小转换为 GB
-                int dotIndex = file.lastIndexOf('.');
-                String suffix = (dotIndex == -1) ? "" : file.substring(dotIndex + 1);
-                System.out.println("Video file " + file + " is " + suffix + " file, size: " + fileSize + " bytes (" + fileSizeInKB + " KB, " + fileSizeInMB + " MB, " + fileSizeInGB + " GB)");
-                String sql = String.format("INSERT INTO files (name, path, suffix, size) VALUES ('%s', '%s', '%s', '%s')", file, fullPath, suffix, fileSize);
-                System.out.println(sql);
-                files.add(new OneFile(file, fullPath, suffix));
-
-                try {
-                    stmt.executeUpdate(sql);
-                } catch (SQLException e) {
-                    System.err.println(e);
-                }
-            } else {
-                System.out.println("The specified file does not exist or is not a regular file.");
-            }
-        }
-        return files.toArray(new OneFile[files.size()]);
-    }
 }

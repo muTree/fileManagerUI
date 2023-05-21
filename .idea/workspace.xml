@@ -4,13 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9dca539e-a061-4a92-b4a8-ab1e39a33bfe" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tree/filesmanagerui/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/tree/filesmanagerui/OneFile.java" afterDir="false" />
+    <list default="true" id="9dca539e-a061-4a92-b4a8-ab1e39a33bfe" name="更改" comment="first">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tree/filesmanagerui/DataSql.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/tree/filesmanagerui/HelloApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/files.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tree/filesmanagerui/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tree/filesmanagerui/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tree/filesmanagerui/OneFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tree/filesmanagerui/OneFile.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +41,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
     "Downloaded.Files.Path.Enabled": "false",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
@@ -111,7 +112,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684227383369</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="first">
+      <created>1684406070195</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1684406070195</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

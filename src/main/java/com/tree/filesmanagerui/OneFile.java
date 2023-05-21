@@ -8,10 +8,11 @@ public class OneFile {
     String size_B;
     String duration_s;
 
-    OneFile (String name, String path, String type) {
+    OneFile (String name, String path, String type, String suffix) {
         this.name = name;
         this.path = path;
         this.type = type;
+        this.suffix = suffix;
     }
 
     public String getName() {
@@ -36,5 +37,13 @@ public class OneFile {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getSuffix() {
+        return suffix;
+    }
+
+    public void setSuffix(String suffix) {
+        this.suffix = suffix;
     }
 }
